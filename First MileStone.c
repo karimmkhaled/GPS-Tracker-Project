@@ -28,6 +28,19 @@ void UART0_transmit(char data) {			//Function to transfer data between the GPS m
 	while ((UART0_FR_R & 0x0020) != 0);
 	UART0_DR_R = data;
 }
+//GPIO Initialization
+void GPIO_Init(void){
+SYSCTL_RCGCGPIO_R |= PF_mask; // Clock init for port F
+while((SYSCTL_PRGPIO_R & PF_mask) == 0); // delay
+GPIO_PORTF_LOCK_R = GPIO_LOCK_KEY; // Lock disable
+GPIO_PORTF_CR_R |= 0X18;
+GPIO_PORTF_AFSEL_R &= ~0X18;
+GPIO_PORTF_AMSEL_R &= ~0X18;
+GPIO_PORTF_DEN_R |= 0X18;
+GPIO_PORTF_PCTL_R &= ~0x0000FF000;
+GPIO_PORTF_DIR_R |= 0X18;
+GPIO_PORTF_DATA_R &= ~0X18;
+}
 //Switch Initialization
 void SW_Init(){
 
