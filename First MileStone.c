@@ -1,6 +1,12 @@
 #include "io.h"
 #include "tm4c123gh6pm.h"
 
+// RECEIVE FUNCTION
+char UART0_Read (void){
+while (UART0_FR_R& 0x010 !=0);  //check if fifo is empty
+return (char)(UART0_DR_R &0xFF); 
+}
+
 void UART0_transmit(char data) {			//Function to transfer data between the GPS module and the MC
 	while ((UART0_FR_R & 0x0020) != 0);
 	UART0_DR_R = data;
