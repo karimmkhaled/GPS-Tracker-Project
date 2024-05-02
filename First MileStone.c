@@ -5,7 +5,11 @@ void UART0_transmit(char data) {			//Function to transfer data between the GPS m
 	while ((UART0_FR_R & 0x0020) != 0);
 	UART0_DR_R = data;
 }
-
+//LED  FUNCTION
+void RGB_Output(unsigned char data) {
+ GPIO_PORTF_DATA_R &= ~PF123_mask;
+ GPIO_PORTF_DATA_R |= data;
+}
 
 
 int main(void){
