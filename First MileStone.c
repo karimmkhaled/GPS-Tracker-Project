@@ -1,12 +1,29 @@
 #include "io.h"
 #include "tm4c123gh6pm.h"
 
+
+// initilization of UART
+void UART_Init(void){
+SYSCTL_RCGCGPIO_R |=0x0001;
+while ((SYSCTL_PRGPIO_R & 0X0001)==0);//activate UART0
+SYSCTL_RCGCUART_R |=0X0001;//activate portA
+UART0_CTL_R &=~0x0001;//disable UART
+UART0_IBRD_R =520;
+UART0_FBRD_R=53;
+UART0_LCRH_R|=0x0070;
+UART0_CTL_R |=0x301;//enable RXE,TXE,UART
+GPIO_PORTA_AFSEL_R |=0x03; //ENABLE ALT FUNC PA0,PA1
+GPIO_PORTA_PCTL_R |=0x00000011;
+GPIO_PORTA_DEN_R |=0x03; //DIGITAL ENABLE
+GPIO_PORTA_AMSEL_R &=~0x03; //DISABLE ANALOG
+}
+
 // RECEIVE FUNCTION
 char UART0_Read (void){
 while (UART0_FR_R& 0x010 !=0);  //check if fifo is empty
-return (char)(UART0_DR_R &0xFF); 
+return (char)(UART0_DR_R &0xFF);
 }
-
+//transmit function
 void UART0_transmit(char data) {			//Function to transfer data between the GPS module and the MC
 	while ((UART0_FR_R & 0x0020) != 0);
 	UART0_DR_R = data;
@@ -34,6 +51,7 @@ void RGB_Output(unsigned char data) {
 int main(void){
  GPIO_Init();
  SW_Init();
+ UART_Init();
 
  while (1)
  {
