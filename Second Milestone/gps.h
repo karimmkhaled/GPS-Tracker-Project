@@ -96,7 +96,7 @@ void GPS_read(){
 					}
 		if (flag_Validity) {flag_Validity=0;break;} // checks if data is not valid return to start of the while
 	}
-}
+
  
  // Convert each character to float 
   currentlong=atof(Long); //change from array to float
