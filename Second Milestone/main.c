@@ -5,15 +5,6 @@
 
 int main(){
 PF_Init();
-GPIO_PORTF_IS_R= ~0X10 ;							// PF4 EDGE SENSITIVE
-GPIO_PORTF_IBE_R=~0X10 ;							// PF4 ONE EDGE NOT BOTH EDGES
-GPIO_PORTF_IEV_R=~0x10 ;							// PF4 FALLING EDGE EVENT
-GPIO_PORTF_IM_R= 0X10;								// PF4 INTERRUPT UNMASKED(ENABLED)
-	
-NVIC_PRI7_R |=0X00200000;							// PRIORITY 1
-NVIC_EN0_R  |=0X40000000;							// ENABLE INTERRUPT 30 IN NVIC
-	
-__asm("CPSIE i");								// ENABLE GLOBAL INTERRUPT FLAG(ASSEMBLY)
 
 	lcdInit();
 	UART_INIT(UART0);
@@ -24,7 +15,7 @@ __asm("CPSIE i");								// ENABLE GLOBAL INTERRUPT FLAG(ASSEMBLY)
 	lcdCmd(0x01);
 	lcdPrint("Loading...",0);
 	while(1){ 
-	while(fish){		//LOOP FOR INTERRUPT	
+		
 	GPS_read();
 		if(Valid=='A'){ // checking Validity of Data recieved
 	SPEED=atof(speed);
@@ -49,5 +40,5 @@ delay(50);
 // putting current coordinates in previous
 previouslat=currentLat; 
 previouslong=currentlong;
-}																//END OF INTERRUPT LOOP
+																//END OF INTERRUPT LOOP
 }}
