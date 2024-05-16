@@ -2,6 +2,56 @@
 #include "gps.c"
 #include "tm4c123gh6pm.h"
 
+void GPIOF_Handler(){					// FUNCTION OF THE INTERRUPT
+
+if(GPIO_PORTF_MIS_R&0x10){			//LOOP FOR CHECKING IF THE INTERRUPT HAS OCCURED
+
+Displacement=	haversine(first_lat,first_long,currentLat,currentlong);	
+avg_speed=DIST[coordinate_index-1]/ ((coordinate_index+1)*0.5);
+	
+fish=0;									//RESETTING FLAG TO STOP EXECUTING THE PROGRAM WHEN INTERRUPT OCCUR
+GPIO_PORTF_DATA_R = 0X08;						//CHANGING THE RED LIGHT TO GREEN WHEN PRESSING SWITCH
+while(1){														// LOOP FOR REPEATING THE DISPLAYED MESSAGES
+lcdClear();lcdPrint("Distance: ",0);sprintf(dis,"%f",DIST[coordinate_index-1]);lcdPrint(dis,1);
+delay(100);	
+//memset(dis,0,15);
+lcdClear();lcdPrint("Displacement: ",0);sprintf(dis,"%f",Displacement);lcdPrint(dis,1);
+delay(100);	
+//memset(dis,0,15);	
+lcdClear();lcdPrint("Avg Speed: ",0);sprintf(dis,"%f",avg_speed);lcdPrint(dis,1);
+delay(100);	
+//	memset(dis,0,15);
+
+
+	if(UART_receive(UART0)=='U'){ //checking to send to PC
+		char test[15]={0};int J;
+	lcdClear();
+	lcdPrint("U is Pressed",0);
+	lcdPrint("SENDING DATA",1);
+		
+		UART_send(UART0,'\n'); 
+		UART_send(UART0,'\r');
+		for(J=0;J<=coordinate_index &&(LATs[J]!=0 )&& (LONGs[J]!=0);J++){ //sending the trajectory
+		sprintf(test,"%f",LATs[J]);
+			UART_OutPutStr(UART0,test);
+			memset(test,0,15);
+			UART_send(UART0,',');
+			sprintf(test,"%f",LONGs[J]);
+			UART_OutPutStr(UART0,test);
+			memset(test,0,15);
+			UART_send(UART0,'\r');
+			UART_send(UART0,'\n');
+		}
+
+	
+		
+	}
+	
+	
+
+
+GPIO_PORTF_ICR_R |=0x10;}}						// CLEAR THE CORRESPONDING EDGE TRIGGERED INTERRUPT
+}
 
 int main(){
 PF_Init();
