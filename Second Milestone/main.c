@@ -1,17 +1,7 @@
 #include "Io.h"
+#include "gps.c"
 #include "tm4c123gh6pm.h"
-#include "UART.h"
-#include "LCD.h"
-#include "stdio.h"
-#include <math.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <inttypes.h>
-#include <stdarg.h>
-#include <string.h>
-#define pi 3.14159265358979323846
-#define EARTH_RADIUS_M 6371000
+
 
 int main(){
 PF_Init();
