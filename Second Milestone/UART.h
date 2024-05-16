@@ -74,7 +74,7 @@ while ((UART0_FR_R & 0x10)!=0) return 0;  //if PC fifo is empty return
             return '\0';
     }
 }
-void UART_OutPutStr(UARTNO uart_no,char ptr){
+void UART_OutPutStr(UARTNO uart_no,char *ptr){
 while(ptr){
 UART_send(uart_no,*ptr); // send string charachter by charachter
 ptr++; }
