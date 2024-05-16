@@ -1,5 +1,5 @@
 #include "Io.h"
-#include "gps.c"
+#include "gps.h"
 #include "tm4c123gh6pm.h"
 
 void PF_Init(){							//FUNCTION FOR INITIALIZING PORTF PINS 0->4
