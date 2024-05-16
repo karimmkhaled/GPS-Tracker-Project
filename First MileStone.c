@@ -59,7 +59,10 @@ void RGB_Output(unsigned char data) {
  GPIO_PORTF_DATA_R &= ~PF123_mask;
  GPIO_PORTF_DATA_R |= data;
 }
-
+// SWITCH READ
+unsigned char SW1_read(){
+return GPIO_PORTF_DATA_R & 0X10;
+}
 
 int main(void){
  GPIO_Init();
