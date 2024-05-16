@@ -97,3 +97,39 @@ void GPS_read(){
 		if (flag_Validity) {flag_Validity=0;break;} // checks if data is not valid return to start of the while
 	}
 }
+ 
+ // Convert each character to float 
+  currentlong=atof(Long); //change from array to float
+  currentspeed=atof(speed);
+  currentLat=atof(Lat);
+  if (North=='S')currentLat=-currentLat; //if south, currentlat=-ve 
+  if (East=='W')currentlong=-currentlong; //if west, currentlat=-ve 
+}
+ //Calculating Distance, changing the recived co-ordinates to degrees
+float toDegrees(float angle ){
+     float X= (int)(angle/100);  
+     float Y=  angle - (X*100); 
+     float Z= ((float)(int)Y)/60.0; 
+     Y= ((Y-((int)Y))*100.0)/3600.0;
+     angle=X+Y+Z;
+    return angle;
+}
+//changing from degress to radians
+ float toRadians(float angle) {
+     angle=toDegrees(angle);
+   return (pi / 180)*angle;
+}
+//calculating distance using haversine formula(non linear)
+float haversine(float lat1, float lon1, float lat2, float lon2) {
+		float phi1,phi2,deltaPhi,deltaLambda,a,c;
+		LATs [coordinate_index]=toDegrees (lat2);
+		LONGs[coordinate_index]=toDegrees (lon2);
+		
+     phi1 = toRadians(lat1);
+     phi2 = toRadians(lat2);
+	   deltaPhi 		= fabs(phi2-phi1);
+     deltaLambda = fabs(toRadians(lon2 -lon1));
+     a = sin(deltaPhi / 2) * sin(deltaPhi / 2) +cos(phi1) * cos(phi2) *sin(deltaLambda / 2) * sin(deltaLambda / 2);
+     c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    return EARTH_RADIUS_M * c;
+}
