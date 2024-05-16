@@ -2,7 +2,7 @@
 #include "tm4c123gh6pm.h"
 
 
-// initilization of UART
+// initilization of UART//
 void UART_Init(void){
 SYSCTL_RCGCGPIO_R |=0x0001;
 while ((SYSCTL_PRGPIO_R & 0X0001)==0);//activate UART0
