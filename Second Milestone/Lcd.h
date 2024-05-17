@@ -16,7 +16,7 @@
  */
 void lcdCmd(char cmd)
 {
-      //Disable the interrupts, to avoid corruption of the sent data
+      
   GPIO_PORTA_DATA_R &=~(0x0C);  //Clear RS and EN
   GPIO_PORTB_DATA_R =(cmd>>4);  //Send the upper nibble of the command
   GPIO_PORTA_DATA_R |=(1<<3); //EN HIGH
@@ -30,7 +30,7 @@ void lcdCmd(char cmd)
   GPIO_PORTA_DATA_R &=~(0x0C);  //Clear RS and EN
   delay(2);
 
-      //Enable the interrupts
+      
 }
 /*
  * Function:  lcdInit
@@ -82,7 +82,7 @@ void lcdInit(void)
 }
 void lcdData(char data)
 {
-       //Disable the interrupts, to avoid corruption of the sent data
+       
 
   GPIO_PORTA_DATA_R &=~(0x0C);  //Clear RS and EN
   GPIO_PORTA_DATA_R |= (1<<2);  //RS HIGH
@@ -99,7 +99,7 @@ void lcdData(char data)
   GPIO_PORTA_DATA_R &=~(0x0C);  //Clear RS and EN
   delay(4);
 
-        //Enable the interrupts
+        
 }
 
 
