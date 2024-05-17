@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 
 
-data = pd.read_csv('TESTFINAL1.csv', names=['lat','lon'])  # if your csv doesn't have a header
+data = pd.read_csv('TESTFINAL1.csv', names=['lat','lon'])  
 
 data.info()
 
