@@ -1,8 +1,6 @@
 import pandas as pd
 import plotly.express as px
 
-with open('TESTFINAL1.csv', 'r') as infile:
-    first_line = infile.readline()
 
 data = pd.read_csv('TESTFINAL1.csv', names=['lat','lon'])  # if your csv doesn't have a header
 
